@@ -1,35 +1,54 @@
 <template>
   <div id="detail">
     <h2>{{detail.ParkAdi}}</h2>
-    <h3>{{detail.Ilce}}</h3>
-    <v-divider></v-divider>
-    <ul>
-      <li>Toplam Kapasite: {{detail.Kapasitesi}}</li>
-      <li>Boş Yer: {{detail.BosKapasite}}</li>
-      <li>Park Tipi: {{detail.ParkTipi}}</li>
-      <li>Çalışma Saatleri: {{detail.CalismaSaatleri}}</li>
-      <li>Ücretsiz Park Yapma Süresi: {{detail.UcretsizParklanmaDk}}</li>
-      <li>Aylık Abone Ücreti: {{detail.AylikAbonelikUcreti}} TL</li>
-    </ul>
-    <v-divider></v-divider>
-    <h3>Detaylı Adres</h3>
-    <p>{{detail.Adres}}</p>
-    <v-divider></v-divider>
-    <div class="ma-2">
-      <centerMap @click.native="detail(detail.ParkID)">
-        Haritada Görüntüle
-      </centerMap>
-    </div>
-    <div class="ma-2">
-      <routeMap @click.native="detail(detail.ParkID)">
-        Rota Çiz
-      </routeMap>
-    </div>
-    <v-divider></v-divider>
-    <h3>Tarifeler</h3>
-    <ul v-for="tarife in detail.Tarifeler" :key="tarife.Tarife">
-      <li>Süre: {{tarife.Tarife}}<br > Fiyat:{{tarife.Fiyat}}<hr></li>
-    </ul>
+    <br>
+    Boş Yer: {{detail.BosKapasite}}
+    <br>
+    <br>
+    <v-expansion-panels accordion>
+      <v-expansion-panel
+        v-for="(item,index) in detailContent"
+        :key="index"
+      >
+        <v-expansion-panel-header>{{item}}</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <template v-if="item === 'Detay'">
+            <ul>
+              <li><strong>Ücretsiz Park Yapma Süresi</strong>: {{detail.UcretsizParklanmaDk}} Dakika</li>
+              <li><strong>Park Tipi</strong>: {{detail.ParkTipi}}</li>
+              <li><strong>Toplam Kapasite</strong>: {{detail.Kapasitesi}}</li>
+              <li><strong>Çalışma Saatleri</strong>: {{detail.CalismaSaatleri}}</li>
+              <li><strong>Aylık Abone Ücreti</strong>: {{detail.AylikAbonelikUcreti}} TL</li>
+            </ul>
+          </template>
+          <template v-if="item === 'Adres'">
+            {{detail.Adres}}
+            <div class="ma-2">
+              <centerMap @click.native="detail(detail.ParkID)">
+                Haritada Görüntüle
+              </centerMap>
+            </div>
+            <div class="ma-2">
+              <routeMap @click.native="detail(detail.ParkID)">
+                Rota Çiz
+              </routeMap>
+            </div>
+          </template>
+          <template v-if="item === 'Tarifeler'">
+            <template v-if="detail.Tarifeler.length != 0">
+              <ul v-for="tarife in detail.Tarifeler" :key="tarife.Tarife">
+                <li>Süre: {{tarife.Tarife}}<br > Fiyat:{{tarife.Fiyat}} TL<hr></li>
+              </ul>
+            </template>
+            <template v-else>
+              <v-alert type="error">
+                Tarife Bilgisi Bulunamadı
+              </v-alert>
+            </template>
+          </template>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </div>
 </template>
 <script>
@@ -51,6 +70,7 @@
       }
     },
     data: () => ({
+      detailContent: ['Detay', 'Adres', 'Tarifeler']
     }),
   }
 </script>
