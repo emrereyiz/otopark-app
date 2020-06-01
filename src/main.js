@@ -12,10 +12,3 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
-
-
-Vue.prototype.$toTrLowerCase = function() {
-  for (var i = ["Ç", "Ü", "Ğ", "I", "İ", "Ş", "Ö"], r = ["ç", "ü", "ğ", "ı", "i", "ş", "ö"], t = this, n = 0; n < i.length; n++)
-      t = t.replace(new RegExp(i[n],"g"), r[n]);
-  return t.toLowerCase()
-}

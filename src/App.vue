@@ -2,7 +2,7 @@
   <v-app>
     <div id="mobile">
       <app-map></app-map>
-      <app-detail v-if="modalStatus"></app-detail>
+      <app-content v-if="modalStatus"></app-content>
       <app-preloader></app-preloader>
     </div>
   </v-app>
@@ -10,13 +10,13 @@
 
 <script>
 import map from "./components/Map"
-import detail from './components/Detail'
+import content from './components/Content'
 import preloader from './components/Preloader'
 export default {
   name: 'App',
   components: {
     appMap: map,
-    appDetail: detail,
+    appContent: content,
     appPreloader: preloader
   },
   data () {

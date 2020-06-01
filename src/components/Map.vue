@@ -3,8 +3,6 @@
       <app-search></app-search>
       <div id="map">
       </div>
-      <div class="content__text">
-      </div>
       <app-slider></app-slider>
   </div>
 </template>
@@ -24,7 +22,7 @@ export default {
   data () {
     return  {
       map: null,
-      zoom: 12,
+      zoom: 14,
       location: {
         lat: null,
         lng: null,
@@ -44,13 +42,18 @@ export default {
       this.location.lng = pos.coords.longitude
       this.map.setCenter(this.location)
       this.setMarker()
+      this.$store.commit('setLocation', {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      })
     },
-    async getLocation () {
+    getLocation () {
       if (navigator.geolocation) {
         this.map = new window.google.maps.Map(document.getElementById("map"), {
-          zoom: 18,
+          zoom: 17,
           disableDefaultUI: true
         });
+        this.$store.commit('setMap', this.map)
         navigator.geolocation.watchPosition(this.deviceLocation)
       } else {
         console.log('Konumunuz alınmıyor.')

@@ -13,6 +13,9 @@ const getters = {
 const mutations = {
   setModal (state, payload) {
     state.modalStatus = payload
+    if(payload === false){
+      state.setDetail  = null
+    }
   },
   setLoading (state, payload) {
     state.loadingStatus = payload

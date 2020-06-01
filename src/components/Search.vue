@@ -18,7 +18,9 @@
           :loading="searchLoading"
           v-model="searchVal"
         ></v-text-field>
-
+        <v-btn @click="clearKey" v-show="searchVal" icon class="valClear">
+          <v-icon small>fa fa-times</v-icon>
+        </v-btn>
       </v-toolbar>
     </v-card>
     <app-result></app-result>
@@ -35,16 +37,24 @@ export default {
     searchLoading: false
   }),
   methods: {
+    clearKey () {
+      this.searchVal = null
+      this.searchLoading = false
+    },
     getSearch (val) {
-      this.searchLoading = true
+      if (val.target.value.length > 3) {
+        this.searchLoading = true
+      } else {
+        this.searchLoading = false
+      }
       var obj = {
         _val: val.target.value,
         $this: this,
         getVal () {
           if(this._val === val.target.value){
-            this.searchLoading = false
             this.$this.$store.commit('setClass')
             this.$this.$store.commit('setKey', this._val)
+            this.$this.searchLoading = false
           }
         }
       }
@@ -59,6 +69,11 @@ export default {
   z-index: 2;
   top:0;
   width:100%;
+  .valClear{
+    position: absolute;
+    right:10px;
+    top:0;
+  }
   > .v-card {
     width:100%;
     background-color: transparent !important;
